@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Farmacia ElionVive</title>
+  <link rel="shortcut icon" href="./favicon.ico" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+	/* Comienzo del Header */
+    header {
+		background: #66cc37;
+		color: white;
+		padding: 1em 0;
+		text-align: center;
+		position: relative; /* Importante para posicionar el fondo */
+		overflow: hidden; /* Para que el contenido no se salga */
+	}
+
+	.header-background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 0; /* Asegura que esté detrás del texto */
+	}
+
+	.header-background img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover; /* Ajusta la imagen al contenedor */
+		opacity: 0.8; /* Opcional:  Añade transparencia a la imagen */
+	}
+
+	/* Mantén tus estilos para el texto y el logo */
+	h1, p {
+		position: relative; /* Asegura que el texto esté encima de la imagen */
+		z-index: 5;
+	}
+
+	.imagen-logo {
+		position: absolute; /* Cambiamos a absolute */
+		top: 100px;          /* Ajusta estos valores según necesites */
+		left: 10px;         /* Ajusta estos valores según necesites */
+		width: auto;
+		max-width: 50px;   /* Ajusta el tamaño máximo del logo */
+		height: 50px;
+		z-index: 10;        /* Asegura que esté por encima de todo */
+		margin: 0;          /* Reseteamos el margin */
+	}
+	/* Fin del Header */
+	
+	/* Comienzo de la barra de navegación */
+    nav {
+		background: #055a9c;
+		display: flex;
+		justify-content: center;
+		gap: 20px;
+		padding: 1em 0;
+		position: sticky; /* O fixed; */
+		top: 0;
+		z-index: 100; /* Asegura que esté por encima de otros elementos */
+    }
+
+    nav a {
+		color: white;
+		text-decoration: none;
+		font-weight: bold;
+		transition: color 0.3s ease; /* Añade una transición suave para el color */
+    }
+
+    nav a:hover {
+		color: #a0d468;
+    }
+	
+	
+	nav a.active {
+		color: yellow;
+	}
+	/* Fin de la barra de navegación */
+	
+	
+	
+	/* Comienzo Imagen Logo */
+	/* Estilos para la imagen flotante del LOGO */
+	.imagen-logo {
+	  float: left; /* Hace que la imagen flote a la izquierda */
+	  width: auto;
+	  max-width: 400px;
+	  height: 200px;
+	  border-radius: 5px;
+	  margin: -150px 990px 
+	}
+	/* Fin Imagen Logo */
+	
+	
+	
+	/* Comienzo efecto Carousel con las imagenes */
+    .carousel {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		gap: 20px;
+		padding: 1em;
+		background: white;
+	}
+
+    .carousel img {
+		width: 300px;
+		height: auto;
+		scroll-snap-align: center;
+		border-radius: 10px;
+    }
+	/* Fin efecto Carousel con las imagenes */
+	
+	
+	/* Comienzo seccion que se va a mostrar en el body */
+    .section {
+		padding: 2em;
+		background: white;
+		margin: 1em auto;
+		max-width: 1500px;
+		border-radius: 10px;
+		box-shadow: 0 0 10px rgba(0,0,0,0.1);
+		display: none;  /* Oculta las secciones inicialmente */
+    }
+
+    .section h2 {
+		color: #0a6ebd;
+    }
+	/* Fin seccion que se va a mostrar en el body */
+	
+	
+	/* Comienzo estilo formulario */
+    form {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+    }
+
+    form input, form textarea, form button {
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+    }
+
+    form button {
+		background: #0a6ebd;
+		color: white;
+		border: none;
+		cursor: pointer;
+    }
+	/* Fin estilo formulario */
+	
+	
+    footer {
+	  background: #8bb07a; /* Tu color verde claro */
+	  color: white;
+	  text-align: center; /* Centra el texto general dentro del footer (si lo tienes) */
+	  padding: 1em;
+	  margin-top: 2em;
+	  display: flex; /* Activa Flexbox para los elementos hijos directos */
+	  justify-content: space-around; /* Distribuye los divs con espacio entre ellos */
+	  align-items: center; /* Centra verticalmente los divs dentro del footer */
+	}
+	
+	
+		
+	/* ======================== */
+	/* Estilo sesiones activas */
+    .section.active {
+		display: block; /* Muestra la sección activa */
+    }
+	
+	.section {
+		/* ... tus estilos ... */
+		display: none; /* Oculta todas las secciones por defecto */
+	}
+	
+	
+	/* ========================================== */
+	/* Estilos de los menús/bloques desplegables */
+    .dropdown {
+		background: #f1f1f1;
+		border: 2px solid #ccc;
+		border-radius: 8px;
+		margin-bottom: 15px;
+		overflow: hidden;
+    }
+    .dropdown-header {
+		background: #28b446;
+		color: white;
+		padding: 15px;
+		cursor: pointer;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-weight: bold;
+		font-size: 18px;
+    }
+    .dropdown-content {
+		display: none;
+		padding: 15px;
+		background: white;
+		color: black;
+    }
+    .arrow {
+		font-size: 20px;
+		transition: transform 0.3s ease;
+    }
+    .arrow.up {
+		transform: rotate(180deg);
+    }
+	
+	
+	/* =========================================================== */
+	/* Estilos para la sección de Servicios (similar a la imagen) */
+
+	#servicios .servicios-grid {
+	  display: grid;
+	  grid-template-columns: repeat(3, 1fr); /* Crea 3 columnas iguales */
+	  gap: 20px; /* Espacio entre las tarjetas */
+	  margin-top: 2em; /* Espacio desde el título de la sección */
+	}
+
+	#servicios .servicio-card {
+	  background-color: #f7fcf7; /* Color de fondo de las tarjetas (ajusta según sea necesario) */
+	  border: 1px solid #d4e9d4; /* Borde de las tarjetas */
+	  border-radius: 8px; /* Bordes redondeados */
+	  padding: 1em;
+	  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+	  display: flex;
+	  flex-direction: column;
+	  justify-content: space-between; /* Espacia el contenido verticalmente */
+	}
+
+	#servicios .servicio-card img {
+	  max-width: 100px; /* Ancho máximo de los iconos (ajusta según sea necesario) */
+	  margin-left: 170px;
+	}
+
+	#servicios .servicio-card h3 {
+	  margin-top: 0;
+	  margin-bottom: 0.5em;
+	  color: #333; /* Color del título */
+	  font-size: 1.2em;
+	}
+
+	#servicios .servicio-card p {
+	  color: #555; /* Color del texto de la descripción */
+	  font-size: 0.9em;
+	  line-height: 1.4;
+	  margin-bottom: 1em;
+	}
+	
+	#servicios .servicio-card a {
+	  text-decoration: none; 
+	}
+	
+	#servicios .servicio-card a#saberMas {
+	  display: block;
+	  width: 100%;
+	  margin-bottom: -16px;
+	  margin-left: -16px;
+	  padding: 1em;
+	  text-align: center;
+	  background-color: #F5F5DC;
+	  color: 0a6ebd;
+	  border-radius: 5px;
+	  text-decoration: none;
+	  font-weight: bold;
+	}
+
+	#servicios .servicio-card a#saberMas:hover {
+	  text-decoration: none; 
+	  background-color: #98f58d ;
+	}
+
+	/* Ajustes para pantallas más pequeñas (opcional)  */
+	@media (max-width: 768px) {
+	  #servicios .servicios-grid {
+		grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+	  }
+	}
+	
+	
+	/* ==================================================================== */
+	/* Estilos para la sección de filtros para Productos con barra lateral */
+	#productos .productos-wrapper {
+	  display: flex;
+	  gap: 20px; /* Espacio entre la barra lateral y el contenido principal */
+	}
+
+	#productos .filtros-sidebar {
+	  width: 200px; /* Ancho de la barra lateral de filtros (ajusta según sea necesario) */
+	  background-color: #f0f0f0; /* Color de fondo de la barra lateral (ajusta según sea necesario) */
+	  padding: 1em;
+	  border-radius: 5px;
+	}
+
+	#productos .productos-main {
+	  flex: 1; /* El contenido principal ocupa el resto del espacio */
+	}
+
+	#productos .filtro-container {
+	  margin-bottom: 1em; /* Espacio debajo del contenedor de filtros */
+	}
+
+	#productos .filtro-ordenar h4 {
+	  margin-top: 0;
+	  margin-bottom: 0.5em;
+	}
+
+	/* Ajusta los estilos del carousel y otros elementos dentro de productos-main según sea necesario  */
+	#productos .carousel {
+	  display: flex;
+	  overflow-x: auto;
+	  scroll-snap-type: x mandatory;
+	  gap: 20px;
+	  padding: 1em;
+	  background: white;
+	}
+
+	#productos .carousel img {
+	  width: 300px;
+	  height: auto;
+	  scroll-snap-align: center;
+	  border-radius: 10px;
+	}
+}
+
+<!-- Estilo Sobre nosotros - Descripcion Servicios -->
+/* Estilos específicos para la sección Sobre Nosotros */
+#nosotros .carousel {
+    display: flex; /* Para que los elementos internos (imagen 24h y el contenedor MVV) se alineen horizontalmente */
+    gap: 20px; /* Espacio entre la imagen 24h y el contenedor de Misión, Visión y Valores */
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin: 1em auto;
+    max-width: 1200px; /* Ajusta el ancho máximo según necesites */
+    overflow-x: auto; /* Por si el contenido es más ancho en pantallas pequeñas */
+}
+
+.abierto-24h-container {
+    flex-shrink: 0; /* Evita que la imagen se encoja demasiado */
+    text-align: center; /* Centra la imagen horizontalmente si es necesario */
+}
+
+.abierto-24h-container img {
+    max-width: 200px; /* Ajusta el tamaño máximo de la imagen según necesites */
+    height: auto;
+}
+
+.mision-vision-valores-container {
+    display: flex; /* Para alinear los elementos de Misión, Visión y Valores horizontalmente */
+    gap: 20px; /* Espacio entre los bloques de Misión, Visión y Valores */
+    flex-grow: 1; /* Permite que este contenedor ocupe el espacio restante */
+}
+
+.mvv-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Alinea el icono, título y párrafo verticalmente */
+    align-items: center; /* Centra los elementos horizontalmente */
+}
+
+.icono-circulo {
+    background-color: white;
+    color: white;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    margin-bottom: 10px; /* Espacio entre el icono y el título */
+}
+
+.mvv-item h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.mvv-item p {
+    text-align: left;
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* Ajustes para pantallas más pequeñas */
+@media (max-width: 768px) {
+    #nosotros .carousel {
+        flex-direction: column; /* Apila los elementos verticalmente en pantallas pequeñas */
+    }
+
+    .mision-vision-valores-container {
+        flex-direction: column; /* Apila los bloques de Misión, Visión y Valores verticalmente */
+        align-items: center; /* Centra los bloques en pantallas pequeñas */
+    }
+
+    .abierto-24h-container {
+        margin-bottom: 20px; /* Añade espacio debajo de la imagen 24h */
+    }
+
+    .mvv-item {
+        margin-bottom: 20px; /* Añade espacio entre los bloques MVV */
+    }
+}
+
+
+	<!-- Diseño Sobre nosotros - Descripcion Empresa -->
+	/* Estilos para el contenedor principal */
+	.contenedor-texto-imagen-simple {
+		max-width: 1200px;
+		margin: 20px auto;
+		padding: 20px;
+		background-color: white;
+		border-radius: 10px;
+		box-shadow: 0 0 10px rgba(0,0,0,0.1);
+		overflow: auto; /* Limpia los floats internos */
+	}
+
+	/* Estilos para la imagen flotante */
+	.imagen-flotante {
+		float: right; /* Hace que la imagen flote a la derecha */
+		width: auto;
+		max-width: 400px;
+		height: auto;
+		margin-left: 20px; /* Espacio a la izquierda de la imagen */
+		margin-bottom: 10px;
+		border-radius: 5px;
+	}
+
+	/* Estilos para los párrafos de texto */
+	.contenedor-texto-imagen-simple p {
+		font-size: 1em;
+		line-height: 1.5;
+		margin-bottom: 1em; /* Espacio entre párrafos */
+	}
+
+	/* Para asegurar que el contenedor padre se expanda correctamente */
+	.contenedor-texto-imagen-simple::after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+
+<!-- Diseño Sobre nosotros - Slideshow -->
+		* {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: sans-serif;
+            margin: 0; /* Important: Remove body margins for full control */
+            background-color: #f0f0f0; /* Light grey background */
+        }
+
+        /* Slideshow container */
+        .slideshow-container {
+            width: 100%; /* Occupy 100% of the parent's width */
+            position: relative;
+            /* margin: 20px auto;  Remove auto margins */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            /* height: 400px;  Optional: Set a fixed height */
+        }
+
+        /* Hide the images by default */
+        .mySlides {
+            display: none;
+            height: 100%; /* Optional: Ensure slides fill container height */
+        }
+
+        /* Image styling */
+        .mySlides img {
+            width: 100%;
+            height: auto; /* Or height: 100% if you want images to fill */
+            display: block;
+            /* object-fit: cover;  Optional: Crop/scale images */
+            border-radius: inherit; /* Inherit border-radius from container */
+        }
+
+        /* Next & previous buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 10px 16px;
+            margin-top: -22px;
+            color: #444;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.3s ease;
+            border-radius: 5px;
+            user-select: none;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .next {
+            right: 0;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #000;
+        }
+
+        /* Number text (1/4 etc) */
+        .numbertext {
+            color: #555;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            z-index: 10; /* Ensure it's above the image */
+        }
+
+        /* Caption text */
+        .text {
+            color: #fff;
+            font-size: 14px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 5px;
+            z-index: 10; /* Ensure it's above the image */
+        }
+
+        /* The dots/bullets/indicators */
+        .dot-container {
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .dot:hover {
+            background-color: green;
+        }
+
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+
+
+		<!-- Sobre Nosotros - Comienzo Mapa Google Maps -->
+		/* Estilos para el contenedor del mapa de ubicación */
+		.mapa-ubicacion {
+			width: 100%; /* O el ancho que desees */
+			margin: 20px auto; /* Centra el mapa y añade margen vertical */
+			border-radius: 10px; /* Opcional: bordes redondeados */
+			overflow: hidden; /* Oculta cualquier contenido que sobresalga del borde */
+			box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Opcional: sombra */
+		}
+
+		.mapa-ubicacion iframe {
+			width: 98%; /* El iframe ocupa todo el ancho de su contenedor */
+			height: 450px; /* Ajusta la altura según necesites */
+			border: 0;
+			margin-left: 16px;
+		}
+
+		/* Ajustes para que el mapa no interfiera con el layout flotante anterior */
+		.clearfix {
+			clear: both; /* Asegura que los elementos posteriores se muestren debajo de los floats */
+		}
+		<!-- Sobre Nosotros - Fin Mapa Google Maps -->
+		
+		/* Estilos Footer */
+		
+		.container-footer {
+		  width:100%;
+		  overflow:auto;
+		}
+
+		.column-footer {
+		  float:left;
+		}
+		
+		footer div img{
+			height: 18px;
+			width: 18px;
+		}
+		
+		.contact-footer {
+		  float:left;
+		}
+		
+		.contact-footer img {
+		  padding: 5px;
+		  margin-left: auto;
+		  margin-right: auto;
+		}
+		
+		.contact-footer h5 {
+		  padding: 5px;
+		  text-align: left;
+		}
+		
+  </style>
+</head>
+<body>
+
+<header>
+  
+  <a href="#" data-section="nosotros"></a>
+  
+  <div class="header-background">
+	<img src="imagenes/plantilla3.png" alt="Fondo Header"> 
+  </div>
+  <h1 style="z-index: 5">Farmacia ElionVive</h1>
+  <p style="z-index: 5">¡Tu salud es nuestra prioridad!</p>
+  <img src="imagenes/logoInicio.png" alt="Logo" class="imagen-logo" style="z-index: 1">
+
+</header>
+
+<nav>
+  <a href="#" data-section="nosotros">Sobre nosotros</a>
+  <a href="#" data-section="productos">Productos</a>
+  <a href="#" data-section="servicios">Servicios</a>
+  <a href="#" data-section="contacto">Contactanos</a>
+</nav>
+
+<section id="nosotros" class="section active">
+  <h2>Sobre Nosotros</h2>
+  <!-- Descripción Empresa -->
+  <div class="carousel">
+		<div class="contenedor-texto-imagen-simple">
+		  <img src="slider/aboutUs.png" alt="Sobre nosotros" class="imagen-flotante">
+		  <p>ElionVive es un pequeño establecimiento sanitario privado cuyo objetivo principal es la dispensación de medicamentos y productos sanitarios a la población, por lo que se posiciona en el sector terciario ofreciendo una variedad de servicios esenciales para la salud del ciudadano, a continuación se mostrará los servicios que nuestra empresa proporciona:</p>
+		  
+		  <ul>Servicios de dispensación y asesoramiento al cliente</ul>
+		  <ul>Servicios de Salud y Bienestar</ul>
+		  <ul>Servicios de Gestión y Otros</ul>
+		  <p>Nuestro equipo de farmacéuticos y profesionales de la salud está comprometido con tu bienestar integral. Entendemos que cada persona es única, por eso nos esforzamos en escucharte, resolver tus dudas y proporcionarte las soluciones que mejor se adapten a tus necesidades. Desde la dispensación de medicamentos con y sin receta, hasta servicios especializados como la toma de tensión arterial, sistemas personalizados de dosificación (SPD) o asesoramiento nutricional, estamos aquí para acompañarte en cada paso.
+			Creemos firmemente en la cercanía y la confianza. Nos esforzamos por crear un ambiente acogedor donde te sientas cómodo y respaldado. Tu salud es nuestra prioridad, y trabajamos cada día con la pasión y el conocimiento que nos caracterizan para que siempre recibas la mejor atención.</p>
+		  </div>
+  </div>
+  
+  <!-- Slideshow container -->
+	<div class="slideshow-container">
+
+        <div class="mySlides fade">
+            <div class="numbertext">1 / 4</div>
+            <img src="slider/sld.png" alt="Image 1">
+            <div class="text">Caption Text</div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext">2 / 4</div>
+            <img src="slider/sld1.jpg" alt="Image 2">
+            <div class="text">Caption Two</div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext">3 / 4</div>
+            <img src="slider/sld2.png" alt="Image 3">
+            <div class="text">Caption Three</div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext">4 / 4</div>
+            <img src="slider/sld3.jpg" alt="Image 4">
+            <div class="text">Caption Four</div>
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <br>
+
+    <div class="dot-container">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+    </div>
+    
+	<h2 style="text-align: right">¿Cuál es nuestro compromiso?</h2>
+	
+  <!-- Descripcion Servicios -->
+  <div class="carousel">
+		<!-- Imagen 24h -->
+		<div style="justify-content: space-around; align-items: center; padding: 20px;">
+			<br>
+			<img src="imagenes/sobre_nosotros.png" alt="Abierto 24h">
+			<br>
+		</div>
+		
+		<!--   -->
+		<div style="display: flex; justify-content: space-around; align-items: center; padding: 20px; border: 1px solid #ccc; border-radius: 20px 0 0 20px; background-color: #50c288">
+		
+		  <div class="mision-vision-valores-container">
+            <div class="mvv-item">
+                <div class="icono-circulo">
+                    <span style="font-size: 30px;">&#127968;</span>
+                </div>
+                <h3>Misión</h3>
+                <p style="text-align: left; margin: 10px;">Ser una marca de farmacias sostenible y eficiente, que da servicio al farmacéutico y a la ciudadanía, con un modelo innovador que pretende enlazar el punto físico con el mundo digital.</p>
+            </div>
+
+            <div class="mvv-item">
+                <div class="icono-circulo">
+                    <span style="font-size: 30px;">&#128241;</span>
+                </div>
+                <h3>Visión</h3>
+                <p style="text-align: left; margin: 10px;">Ser una marca de farmacias referente, centrada en la experiencia del cliente, que se respira innovadora y a un sólo click del cliente. Tu farmacia en el móvil.</p>
+            </div>
+
+            <div class="mvv-item">
+                <div class="icono-circulo">
+                    <span style="font-size: 30px;">&#128578;</span>
+                </div>
+                <h3>Valores</h3>
+                <p style="text-align: left; margin: 10px;">Innovación, Compromiso con Experiencia Cliente, Competitividad, Excelencia, Profesionalidad, Cuidar a nuestros equipos, Resultados, Responsabilidad social, Orgullo de pertenencia.</p>
+            </div>
+        </div>
+	</div>
+	</div>
+	
+	<br>
+	<br>
+	
+	<!-- Ubicación Google Maps  -->
+	<h2 style="text-align: center">¿Dónde nos ubicamos?</h2>
+	<br>
+	<div class="mapa-ubicacion">
+		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20742.121980405434!2d-3.2284072843641254!3d39.393929175841166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd69aefebd459bf3%3A0x87ad528a238236b9!2sFarmacia%20Alc%C3%A1zar%20Sahilleza%20-%20Pablo%20A.%20Garc%C3%ADa%20Escribano%20Gallego!5e0!3m2!1ses!2ses!4v1746606366039!5m2!1ses!2ses" width="600" height="450" style="border: 1px solid black;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+	</div>
+	
+	
+</section>
+
+
+<section id="productos" class="section">
+  <h2>Productos Destacados</h2>
+  <div class="productos-wrapper">  <aside class="filtros-sidebar"> <div class="filtro-container">
+        <h3>FILTRO</h3>
+        <div class="filtro-ordenar">
+          <h4>Ordenar por precio</h4>
+          <select>
+            <option value="asc">Menor a Mayor</option>
+            <option value="desc">Mayor a Menor</option>
+          </select>
+        </div>
+        </div>
+    </aside>
+    <main class="productos-main">  
+     <div class="carousel">
+        <img src="../favicons/prueba.PNG" alt="Medicamento 1" />
+		<pre>
+Producto: Silla de ruedas basculares
+Precio: 50,30 €
+		</pre>
+        <img src="../favicons/prueba2.PNG" alt="Medicamento 2" />
+<pre>
+Producto: Sillas de transperencia o transporte 
+Precio: 20,50 €
+      </div>
+<div class="carousel">
+</pre>
+        <img src="../favicons/prueba3.PNG" alt="Medicamento 3" />
+<pre>
+Producto: Sillas de ruedas deportivas
+Precio: 30,40 €
+		</pre>
+        <img src="../favicons/prueba4.PNG" alt="Medicamento 4" />
+<pre>
+Producto: Andadores rollator de exterior
+Precio: 15,50 €
+		</pre>
+
+      </div>
+<div class="carousel">
+	<img src="../favicons/prueba5.PNG" alt="Medicamento 5" />
+<pre>
+Producto: Andadores bariátricos
+Precio: 13,20 €
+		</pre>
+        <img src="../favicons/prueba6.PNG" alt="Medicamento 6" />
+<pre>
+Producto: Soporte para Bastones
+Precio: 11,01 €
+		</pre>
+
+      </div>
+      </main>
+  </div>
+</section>
+
+<section id="servicios" class="section">
+  <h2>Servicios</h2>
+  <div class="servicios-grid">
+    <div class="servicio-card">
+	  <a href="#desplegableConReceta">
+	  <img src="servicios/conRecetaOK.png" alt="Con receta"> 
+	  <h3>Dispensación de Medicamentos con Receta</h3>
+      <p>Tu piel y tu pelo también hablan de tu salud. La piel es el órgano más grande...</p></a>
+	  <a href="#desplegableConReceta" id="saberMas">Saber más</a>
+    </div>
+
+    <div class="servicio-card">
+	<a href="#desplegableConReceta">
+	  <img src="servicios/sinRecetaOK.png" alt="Sin receta"> 
+	  <h3>Dispensación de Medicamentos sin receta</h3>
+      <p>Soluciones naturales para todos. Somos especialistas en productos con activos naturales. Desde la...</p></a>
+      <a href="#desplegableSinReceta" id="saberMas">Saber más</a>
+    </div>
+
+    <div class="servicio-card">
+	<a href="#desplegableConReceta">
+	<img src="servicios/consejoOK.png" alt="Consejo"> 
+	  <h3>Consejo Farmacéutico Personalizado</h3>
+      <p>¡Enhorabuena! Nueva etapa, nuevos retos y MUCHOS primeros momentos! En la aventura d...</p></a>
+      <a href="#desplegableConsejo" id="saberMas">Saber más</a>
+    </div>
+
+    <div class="servicio-card">
+	<a href="#desplegableConReceta">
+	<img src="servicios/spdOK.png" alt="SPD"> 
+	  <h3>Sistema Personalizado de Dosificacion (SPD)</h3>
+      <p>Cuidarse en casa. Algunos prefieren venir a la farmacia para controlar sus parámetros de sa...</p></a>
+	  <a href="#desplegableSPD" id="saberMas">Saber más</a>
+    </div>
+
+    <div class="servicio-card">
+	<a href="#desplegableConReceta">
+	<img src="servicios/medicionOK.png" alt="MedicionParametros"> 
+	  <h3>Medición de Parámetros de Salud</h3>
+      <p>Somos expertos en cuidado. Porque es nuestra profesión y en el que nos hemos formad...</p></a>
+	  <a href="#desplegableMedicionParametros" id="saberMas">Saber más</a>
+	</div>
+
+    <div class="servicio-card">
+	<a href="#desplegableConReceta">
+	<img src="servicios/ortopediaOK.png" alt="Ortopedia"> 
+	  <h3>Productos de Ortopedia</h3>
+      <p>A nosotros nos encanta el verano. ¿Y a ti? Por eso en nuestra farmacia encontrarás...</p></a>
+	  <a href="#desplegableOrtopedia" id="saberMas">Saber más</a>
+	</div>
+	
+	<div class="servicio-card">
+	<a href="#desplegableConReceta"> 
+	<img src="servicios/nutricionOK.png" alt="Nutricion">
+	  <h3>Nutrición y Dietética</h3>
+      <p>A nosotros nos encanta el verano. ¿Y a ti? Por eso en nuestra farmacia encontrarás...</p></a>
+	  <a href="#desplegableNutricion" onclick="toggleDropdown(this)" id="saberMas">Saber más</a>
+	</div>
+  </div>
+  
+ </div>
+  
+  <br>
+  <br>
+  
+  <main>
+	  <!-- Menús desplegables -->
+	  <div class="dropdown">
+		<div class="dropdown-header" onclick="toggleDropdown(this)">
+		  Dispensación de Medicamentos con Receta <span class="arrow" id="desplegableConReceta">▼</span>
+		</div>
+		<div class="dropdown-content">
+		  <p>Contenido del primer menú desplegable. Aquí puedes poner cualquier información.</p>
+		</div>
+	  </div>
+	
+	  <div class="dropdown">
+		<div class="dropdown-header" onclick="toggleDropdown(this)">
+		  Dispensación de Medicamentos sin Receta <span class="arrow" id="desplegableSinReceta">▼</span>
+		</div>
+		<div class="dropdown-content">
+		  <pre>
+
+		  </pre>
+		</div>
+	  </div>
+	  
+	  <div class="dropdown">
+		<div class="dropdown-header" onclick="toggleDropdown(this)">
+		  Consejo Farmacéutico Personalizado <span class="arrow" id="desplegableConsejo">▼</span>
+		</div>
+		<div class="dropdown-content">
+		  <p>Contenido del segundo menú desplegable. Más información o detalles sobre otro tema.</p>
+		</div>
+	  </div>
+	  
+	  <div class="dropdown">
+		<div class="dropdown-header" onclick="toggleDropdown(this)">
+		  Sistema Personalizado de Dosificación (SPD) <span class="arrow" id="desplegableSPD">▼</span>
+		</div>
+		<div class="dropdown-content">
+		  <p>Contenido del segundo menú desplegable. Más información o detalles sobre otro tema.</p>
+		</div>
+	  </div>
+	  
+	  <div class="dropdown">
+		<div class="dropdown-header" onclick="toggleDropdown(this)">
+		  Medición de Parámetros de Salud <span class="arrow" id="desplegableMedicionParametros">▼</span>
+		</div>
+		<div class="dropdown-content">
+		  <p>Contenido del segundo menú desplegable. Más información o detalles sobre otro tema.</p>
+		</div>
+	  </div>
+	  
+	  <div class="dropdown">
+		<div class="dropdown-header" onclick="toggleDropdown(this)">
+		  Productos de Ortopedia <span class="arrow" id="desplegableOrtopedia">▼</span>
+		</div>
+		<div class="dropdown-content">
+		  <pre>
+Nuestra farmacia ofrece una gama de servicios ortopédicos que abarcan desde la venta y alquiler de productos hasta la adaptación individualizada y el seguimiento. 
+  Los principales servicios son:
+
+    Venta y Alquiler de Productos de Ortopedia:
+
+       Ayudas a la Movilidad: Sillas de ruedas (manuales y eléctricas), andadores, bastones, muletas, rollators. Se ofrece la posibilidad de alquiler para periodos de recuperación temporal 
+       (post-operatorios, lesiones) o para probar un producto antes de la compra definitiva.
+       Prótesis y Ortesis: Adaptación y dispensación de órtesis para diferentes partes del cuerpo (rodilleras, tobilleras, muñequeras, fajas lumbares, collarines), plantillas personalizadas y
+       en algunos casos, asesoramiento para prótesis menores.
+       Artículos de Descanso y Antiescaras: Colchones y cojines antiescaras, camas articuladas, almohadas cervicales y otros productos diseñados para mejorar el confort y prevenir 
+       complicaciones en pacientes encamados o con movilidad reducida.
+       Calzado Ortopédico: Calzado especializado para diversas patologías del pie, con el objetivo de proporcionar confort, estabilidad y corrección postural.
+       Artículos para Incontinencia y Ostomía: Productos como pañales para adultos, empapadores, bolsas de ostomía y accesorios, con asesoramiento sobre su uso y cuidado.
+
+    Asesoramiento y Adaptación Personalizada:
+
+       Toma de Medidas y Ajuste: Nuestro personal especializado (farmacéuticos o técnicos ortopedistas) realiza la toma de medidas precisas para asegurar la correcta adaptación de órtesis, fajas 
+       o calzado, garantizando la máxima eficacia y confort.
+       Configuración de Ayudas Técnicas: Ajuste y configuración de sillas de ruedas, andadores y otros dispositivos a las necesidades específicas de cada paciente (altura, peso, tipo de movilidad).
+       Formación en el Uso: Orientación detallada sobre cómo utilizar, mantener y cuidar los productos ortopédicos para asegurar su durabilidad y un uso seguro.
+
+    Seguimiento y Mantenimiento:
+
+       Revisiones Periódicas: Se ofrece un servicio de revisión y mantenimiento básico de los productos adquiridos o alquilados para garantizar su buen funcionamiento.
+       Resolución de Dudas: Soporte continuo para resolver cualquier pregunta o problema que pueda surgir con el uso de los artículos ortopédicos.
+		  </pre>
+		</div>
+	  </div>
+	  
+	  <div class="dropdown">
+		<div class="dropdown-header" onclick="toggleDropdown(this)">
+		  Nutrición y Dietética <span class="arrow" id="desplegableNutricion">▼</span>
+		</div>
+		<div class="dropdown-content">
+		  <p>Contenido del segundo menú desplegable. Más información o detalles sobre otro tema.</p>
+		</div>
+	  </div>
+	</main>
+</section>
+
+<section id="contacto" class="section">
+  <h2>Contacto</h2>
+  <form onsubmit="enviarFormulario(event)">
+    <input type="text" placeholder="Tu nombre" required />
+    <input type="email" placeholder="Tu correo electrónico" required />
+    <textarea rows="4" placeholder="Tu mensaje..." required></textarea>
+    <button type="submit">Enviar</button>
+  </form>
+</section>
+
+<section id="suscripcion" class="section">
+  <h2>Suscríbete a nuestras ofertas</h2>
+  <form onsubmit="suscribirCorreo(event)">
+    <input type="email" placeholder="Tu correo electrónico" required />
+    <button type="submit">Suscribirme</button>
+  </form>
+</section>
+
+<footer>
+  <div class="container-footer">
+  
+	<div style="margin-right: 10px; margin-left: -200px; background-color: #8da679; border-radius: 10%;" class="column-footer">
+		<h5 style="color: white; background-color: black">¿Tienes alguna duda?</h5>
+		<h5 style="color: black">Puedes consultar tus dudas sobre medicamentos o cualquier otra cuestión <br> con nuestro equipo farmacéutico. Pulsa en el botón de abajo, envianos tu pregunta <br> y un profesional te dará respuesta con la mayor diligencia posible<br><br> Tu salud es lo que nos une!</h5>
+		<h5 style="color: #cbefee">▼ Centro de ayuda y contacto ▼</h5>
+		<br><br>
+		
+		<h6 style="color: #e4e4e4">España – CIF:B84307189</h6>
+	</div>
+	
+	<div style="margin-right: 10px; margin-left: 200px; background-color: #8da679; border-radius: 24%" class="column-footer">
+		<h5 style="color: #e4e4e4"><img src="favicon/copyright.png" alt="Copyright" class="img-copyright"> 2025 Farmacia ElionVive - Todos los derechos reservados</h5>
+		<h6 style="color: #cfcfcf">Todos los productos incluyen IVA</h6>
+	</div>
+	
+	<div style="margin-right: 60px; margin-left: 200px" class="column-footer">
+		<div class="contact-footer" style="background-color: white; margin-bottom: -10px">
+		<br>
+			<img src="favicon/ubicacion.png" alt="Ubicación"><br><br>
+			<img src="favicon/correo.png" alt="Correo"><br><br>
+			<img src="favicon/telefono.png" alt="Teléfono"><br><br>
+		</div>
+		<div class="contact-footer" style="background-color: black" >
+			<h5>Av. Quero, 2</h5>
+			<h5>consultas@elionvive.com</h5>
+			<h5>(+34) 642 560 560</h5>
+		</div>
+	</div>
+	
+	<div style=" margin-right: 60px; margin-left: 200px">
+		<div class="contact-footer" style="margin-left: 180px; margin-top: -40px">
+			<img src="imagenes/logo.png" alt="Logo" style="height: 200px; width: 200px;">
+		</div>
+		<div class="contact-footer">
+			<h1 style="font-size: 70px">ElionVive</h1>
+		</div>
+	</div>
+	
+  </div>
+</footer>
+
+<script>
+
+<!-- Función para el Slider -->
+
+	let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+       showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+       showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+       let i;
+       let slides = document.getElementsByClassName("mySlides");
+       let dots = document.getElementsByClassName("dot");
+       if (n > slides.length) {slideIndex = 1}
+       if (n < 1) {slideIndex = slides.length}
+
+       for (i = 0; i < slides.length; i++) {
+           slides[i].style.display = "none";
+       }
+       for (i = 0; i < dots.length; i++) {
+           dots[i].className = dots[i].className.replace(" active", "");
+       }
+
+       slides[slideIndex-1].style.display = "block";
+       dots[slideIndex-1].className += " active";
+    }
+
+
+    // Función para enviar el formulario 
+    function enviarFormulario(event) {
+   		event.preventDefault();
+        alert("Gracias por contactarnos. Te responderemos pronto.");
+    }
+
+  
+    // Función para ....
+
+	function suscribirCorreo(event) {
+	    event.preventDefault();
+	    alert("Gracias por suscribirte a nuestras ofertas.");
+  	}
+
+
+    //  *** NUEVO JAVASCRIPT PARA LA NAVEGACIÓN ***
+
+	const navLinks = document.querySelectorAll('nav a');
+	const sections = document.querySelectorAll('.section');
+
+
+	// Función para mostrar una sección y ocultar las demás
+	function showSection(sectionId) {
+    	sections.forEach(section => {
+			section.classList.remove('active');
+    	});
+
+		navLinks.forEach(link => {
+			link.classList.remove('active'); // Remueve 'active' de todos los enlaces
+		});
+
+	    const selectedSection = document.getElementById(sectionId);
+
+    	if (selectedSection) {
+      		selectedSection.classList.add('active');
+  
+			// Muestra la sección cuyo data-section coincida con sectionId 
+			navLinks.forEach(link => {
+				if (link.dataset.section === sectionId) {
+					link.classList.add('active');
+				}
+			});
+	      	selectedSection.scrollIntoView({ behavior: 'smooth' }); // Opcional: Scroll suave
+	    }
+	}
+
+	
+	
+	// Event listeners para los enlaces de la navegación
+
+	navLinks.forEach(link => {
+    	link.addEventListener('click', (event) => {
+        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+        const sectionId = link.dataset.section;
+      	showSection(sectionId);
+    	});
+  	});
+
+
+  	// Mostrar la primera sección al cargar la página (opcional, ya lo hacemos con 'active' en HTML)
+  	showSection('nosotros');
+	
+	
+	
+	<!-- Funcionalidad de la imagen del LOGO -->
+	// Obtén la referencia a la imagen del logo
+	const logoImagen = document.querySelector('header img.imagen-logo');
+
+	// Añade un event listener para el clic en la imagen del logo
+	if (logoImagen) {
+		logoImagen.addEventListener('click', () => {
+			showSection('nosotros');
+		});
+
+		// Opcional: Cambiar el cursor para indicar que es un puntero
+		logoImagen.style.cursor = 'pointer';
+	}
+
+
+
+	// Evento menus desplegables de los Servicios
+	function toggleMenu() {
+	    const menu = document.getElementById('menu');
+	    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+	  }
+
+  	function toggleDropdown(element) {
+	    const content = element.nextElementSibling;
+	    const arrow = element.querySelector('.arrow');
+	    if (content.style.display === 'block') {
+		    content.style.display = 'none';
+	        arrow.classList.remove('up');
+	    }else {
+	        content.style.display = 'block';
+	        arrow.classList.add('up');
+	    }
+
+  	}
+
+</script>
+
+</body>
+</html>
