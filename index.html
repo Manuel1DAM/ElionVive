@@ -987,21 +987,14 @@ Nuestra farmacia ofrece una gama de servicios ortopédicos que abarcan desde la 
 
 <section id="contacto" class="section">
   <h2>Contacto</h2>
-  <form onsubmit="enviarFormulario(event)">
-    <input type="text" placeholder="Tu nombre" required />
-    <input type="email" placeholder="Tu correo electrónico" required />
-    <textarea rows="4" placeholder="Tu mensaje..." required></textarea>
+  <form action="https://formsubmit.co/mgarciaballesterosvelez@gmail.com" method="POST" onsubmit="enviarFormulario(event)">
+    <input name="Nombre" type="text" placeholder="Tu nombre" required />
+    <input name="Correo electrónico" type="email" placeholder="Tu correo electrónico" required />
+    <textarea rows="4" name="Mensaje" placeholder="Tu mensaje..." required></textarea>
     <button type="submit">Enviar</button>
   </form>
 </section>
 
-<section id="suscripcion" class="section">
-  <h2>Suscríbete a nuestras ofertas</h2>
-  <form onsubmit="suscribirCorreo(event)">
-    <input type="email" placeholder="Tu correo electrónico" required />
-    <button type="submit">Suscribirme</button>
-  </form>
-</section>
 
 <footer>
   <div class="container-footer">
